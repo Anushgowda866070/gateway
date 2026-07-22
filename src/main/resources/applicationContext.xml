@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="messageService"
+          class="com.socket.gateway.service.MessageService"/>
+
+    <bean id="gatewayClient"
+          class="com.socket.gateway.socket.GatewayClient">
+
+        <constructor-arg ref="messageService"/>
+
+    </bean>
+
+    <bean id="transactionClass"
+          class="com.socket.gateway.transaction.TransactionClass">
+
+        <constructor-arg ref="gatewayClient"/>
+
+    </bean>
+
+    <bean id="gatewayServer"
+          class="com.socket.gateway.server.GatewayServer">
+
+    <constructor-arg ref="transactionClass"/>
+
+</bean>
+
+
+</beans>
