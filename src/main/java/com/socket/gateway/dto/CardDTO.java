@@ -1,6 +1,6 @@
 package com.socket.gateway.dto;
 
-import com.socket.gateway.enums.CardType;
+import com.socket.gateway.enums.Scheme;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -21,7 +21,7 @@ public class CardDTO {
     private String cvv;
 
     @NotNull
-    private CardType cardType;
+    private Scheme scheme;
 
     public String getCardNumber() {
         return cardNumber;
@@ -47,11 +47,11 @@ public class CardDTO {
         this.cvv = cvv;
     }
 
-    public CardType getCardType() {
-        return cardType;
+    public Scheme getScheme() {
+        return scheme;
     }
 
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
+    public void setScheme(Scheme scheme) {
+        this.scheme = scheme;
     }
 }

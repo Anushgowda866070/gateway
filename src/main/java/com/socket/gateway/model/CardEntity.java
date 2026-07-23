@@ -1,12 +1,12 @@
 package com.socket.gateway.model;
 
-import com.socket.gateway.enums.CardType;
+import com.socket.gateway.enums.Scheme;
 
 public class CardEntity {
     private String cardNumber;
     private String cardExpiry;
     private String cvv;
-    private CardType cardType;
+    private Scheme scheme;
 
     public String getCardNumber() {
         return cardNumber;
@@ -33,11 +33,11 @@ public class CardEntity {
         this.cvv = cvv;
     }
 
-    public CardType getCardType() {
-        return cardType;
+    public Scheme getScheme() {
+        return scheme;
     }
 
-    public void setCardType(CardType cardType) {
-        this.cardType = cardType;
+    public void setScheme(Scheme scheme) {
+        this.scheme = scheme;
     }
 }

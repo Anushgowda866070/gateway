@@ -13,7 +13,6 @@ public class SalesRequest {
     private EWallet eWallet;
     private TransactionType transactionType;
 
-
     public String getMerchantId() {
         return merchantId;
     }
@@ -30,12 +29,12 @@ public class SalesRequest {
         this.gatewayReference = gatewayReference;
     }
 
-    public CardEntity getCardEntity() {
-        return cardEntity;
+    public MoneyEntity getMoneyEntity() {
+        return moneyEntity;
     }
 
-    public void setCardEntity(CardEntity cardEntity) {
-        this.cardEntity = cardEntity;
+    public void setMoneyEntity(MoneyEntity moneyEntity) {
+        this.moneyEntity = moneyEntity;
     }
 
     public String getRecurrenceFlag() {
@@ -46,20 +45,12 @@ public class SalesRequest {
         this.recurrenceFlag = recurrenceFlag;
     }
 
-    public MoneyEntity getMoneyEntity() {
-        return moneyEntity;
+    public CardEntity getCardEntity() {
+        return cardEntity;
     }
 
-    public void setMoneyEntity(MoneyEntity moneyEntity) {
-        this.moneyEntity = moneyEntity;
-    }
-
-    public EWallet geteWallet() {
-        return eWallet;
-    }
-
-    public void seteWallet(EWallet eWallet) {
-        this.eWallet = eWallet;
+    public void setCardEntity(CardEntity cardEntity) {
+        this.cardEntity = cardEntity;
     }
 
     public AcceptorDetails getAcceptorDetails() {
@@ -68,6 +59,14 @@ public class SalesRequest {
 
     public void setAcceptorDetails(AcceptorDetails acceptorDetails) {
         this.acceptorDetails = acceptorDetails;
+    }
+
+    public EWallet geteWallet() {
+        return eWallet;
+    }
+
+    public void seteWallet(EWallet eWallet) {
+        this.eWallet = eWallet;
     }
 
     public TransactionType getTransactionType() {
