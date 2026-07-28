@@ -24,7 +24,7 @@ public class GatewayClient {
 
         try {
 
-            Socket socket = new Socket("172.30.130.191", 5000);
+            Socket socket = new Socket("localhost", 5000);
 
             System.out.println("Connected to Endpoint");
 

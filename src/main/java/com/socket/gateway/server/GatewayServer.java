@@ -40,7 +40,29 @@ public class GatewayServer {
                 ObjectMapper objectMapper=new ObjectMapper();
                 SalesRequestDTO dto=objectMapper.readValue(jsonRequest,SalesRequestDTO.class);
 
-                String response=transactionClass.processSale(dto);
+                String response=null;
+
+                    switch (dto.getTransactionType()) {
+                        case SALE:
+                            response=transactionClass.processSale(dto);
+                            break;
+
+                        case REFUND:
+                            response=transactionClass.processRefund(dto);
+                            break;
+
+                        case VERIFY:
+                            response=transactionClass.processVerify(dto);
+                            break;
+
+                        case VOID:
+                            response=transactionClass.processVoid(dto);
+                            break;
+
+                        default:
+                            response = ("Invalid Transaction Type");
+                            break;
+                    }
 
                 PrintWriter writer =
                         new PrintWriter(socket.getOutputStream(), true);
