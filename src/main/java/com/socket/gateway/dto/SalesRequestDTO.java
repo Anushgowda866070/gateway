@@ -32,7 +32,7 @@ public class SalesRequestDTO {
     @NotNull(message = "EWallet is required")
     private EWallet eWallet;
 
-    @NotNull(message = "Transaction Type is required")
+
     private TransactionType transactionType;
 
     public String getMerchantId() {
