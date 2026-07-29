@@ -1,7 +1,9 @@
 package com.socket.gateway.transaction;
 
+import com.socket.gateway.dto.CardDTO;
 import com.socket.gateway.dto.SalesRequestDTO;
 import com.socket.gateway.socket.GatewayClient;
+import com.socket.gateway.validator.CardCvvValidator;
 import com.socket.gateway.validator.CardExpiryValidator;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -35,9 +37,11 @@ public class TransactionClass {
             return message.toString();
 
         }
-        if(CardExpiryValidator.isCardExpired(dto.getCardEntity().getCardExpiry())){
+        if(CardExpiryValidator.isCardExpired(dto.getCardEntity().getCardExpiry())) {
             return "Card Expired";
         }
+        CardDTO cardDTO= dto.getCardEntity();
+        CardCvvValidator.validate(cardDTO.getScheme(), cardDTO.getCvv());
         return gatewayClient.sendRequest(dto);
     }
 

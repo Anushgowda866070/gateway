@@ -16,8 +16,6 @@ public class CardDTO {
     private String cardExpiry;
 
     @NotBlank(message = "CVV is required")
-    @Pattern(regexp = "\\d{3}",
-            message = "CVV must contain exactly 3 digits")
     private String cvv;
 
     @NotNull
