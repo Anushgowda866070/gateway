@@ -29,20 +29,24 @@ public class TransactionClass {
                 validator.validate(dto);
 
         if (!errors.isEmpty()) {
-            StringBuilder message=new StringBuilder();
+            StringBuilder message = new StringBuilder();
 
-            for(ConstraintViolation<SalesRequestDTO>error:errors){
+            for (ConstraintViolation<SalesRequestDTO> error : errors) {
                 message.append(error.getMessage()).append("\n");
             }
             return message.toString();
 
         }
-        if(CardExpiryValidator.isCardExpired(dto.getCardEntity().getCardExpiry())) {
+        if (CardExpiryValidator.isCardExpired(dto.getCardEntity().getCardExpiry())) {
             return "Card Expired";
         }
-        CardDTO cardDTO= dto.getCardEntity();
-        CardCvvValidator.validate(cardDTO.getScheme(), cardDTO.getCvv());
-        return gatewayClient.sendRequest(dto);
+        try {
+            CardDTO cardDTO = dto.getCardEntity();
+            CardCvvValidator.validate(cardDTO.getScheme(), cardDTO.getCvv());
+            return gatewayClient.sendRequest(dto);
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
     }
 
     public String processRefund(SalesRequestDTO dto) {
