@@ -2,7 +2,9 @@ package com.socket.gateway.transaction;
 
 import com.socket.gateway.dto.CardDTO;
 import com.socket.gateway.dto.SalesRequestDTO;
+import com.socket.gateway.enums.TransactionType;
 import com.socket.gateway.socket.GatewayClient;
+import com.socket.gateway.utility.RandomAlphaNumeric;
 import com.socket.gateway.validator.CardCvvValidator;
 import com.socket.gateway.validator.CardExpiryValidator;
 import jakarta.validation.ConstraintViolation;
@@ -43,6 +45,9 @@ public class TransactionClass {
         try {
             CardDTO cardDTO = dto.getCardEntity();
             CardCvvValidator.validate(cardDTO.getScheme(), cardDTO.getCvv());
+            String transactionId= RandomAlphaNumeric.generateTransactionId(TransactionType.SALE);
+            dto.setTransactionId(transactionId);
+            dto.setTransactionType(TransactionType.SALE);
             return gatewayClient.sendRequest(dto);
         } catch (IllegalArgumentException e) {
             return e.getMessage();
@@ -65,6 +70,11 @@ public class TransactionClass {
             }
             return message.toString();
         }
+        if(dto.getParentTransactionId()==null || dto.getParentTransactionId().isBlank()) {
+            String transactionId = RandomAlphaNumeric.generateTransactionId(TransactionType.REFUND);
+            dto.setTransactionId(transactionId);
+            dto.setTransactionType(TransactionType.REFUND);
+        }
 
         return gatewayClient.sendRequest(dto);
     }
@@ -86,6 +96,9 @@ public class TransactionClass {
             return message.toString();
         }
 
+        String transactionId= RandomAlphaNumeric.generateTransactionId(TransactionType.VERIFY);
+        dto.setTransactionId(transactionId);
+
         return gatewayClient.sendRequest(dto);
     }
 
@@ -105,6 +118,9 @@ public class TransactionClass {
             }
             return message.toString();
         }
+
+        String transactionId= RandomAlphaNumeric.generateTransactionId(TransactionType.VOID);
+        dto.setTransactionId(transactionId);
 
         return gatewayClient.sendRequest(dto);
     }

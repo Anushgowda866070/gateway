@@ -1,11 +1,13 @@
 package com.socket.gateway.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.socket.gateway.enums.EWallet;
 import com.socket.gateway.enums.TransactionType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SalesRequestDTO {
 
     @NotBlank(message = "Merchant Id is required")
@@ -31,6 +33,10 @@ public class SalesRequestDTO {
 
     @NotNull(message = "EWallet is required")
     private EWallet eWallet;
+
+    private String transactionId;
+
+    private String parentTransactionId;
 
 
     private TransactionType transactionType;
@@ -97,5 +103,21 @@ public class SalesRequestDTO {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getParentTransactionId() {
+        return parentTransactionId;
+    }
+
+    public void setParentTransactionId(String parentTransactionId) {
+        this.parentTransactionId = parentTransactionId;
     }
 }
