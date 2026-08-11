@@ -20,22 +20,22 @@ public class GatewayServer {
         this.transactionClass = transactionClass;
     }
 
-    private static final Logger logger=LoggerFactory.getLogger(GatewayServer.class);
+    private static final Logger LOGGER =LoggerFactory.getLogger(GatewayServer.class);
 
     public void startServer() {
         try {
             ServerSocket serverSocket = new ServerSocket(4000);
-            logger.info("Gateway Server Started on Port 4000");
+            LOGGER.info("Gateway Server Started on Port 4000");
 
             while (true) {
                 Socket socket = serverSocket.accept();
-                logger.info("APP Connected");
+                LOGGER.info("APP Connected");
                 BufferedReader reader =
                         new BufferedReader(
                                 new InputStreamReader(socket.getInputStream()));
 
                 String jsonRequest = reader.readLine();
-                logger.info("Request : " + jsonRequest);
+                LOGGER.info("Request :{} ", jsonRequest);
 
                 ObjectMapper objectMapper=new ObjectMapper();
                 SalesRequestDTO dto=objectMapper.readValue(jsonRequest,SalesRequestDTO.class);
@@ -70,7 +70,7 @@ public class GatewayServer {
                 socket.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
     }
 }
