@@ -3,12 +3,10 @@ package com.socket.gateway.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.socket.gateway.enums.EWallet;
 import com.socket.gateway.enums.TransactionType;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SalesRequestDTO {
+public class RefundRequestDTO {
 
     @NotBlank(message = "Merchant Id is required")
     private String merchantId;
@@ -16,27 +14,18 @@ public class SalesRequestDTO {
     @NotBlank(message = "Gateway Reference is required")
     private String gatewayReference;
 
-    private String recurrenceFlag;
-
-    @Valid
-    @NotNull(message = "Money details are required")
-    private MoneyDTO moneyEntity;
-
-    @Valid
-    @NotNull(message = "Card details are required")
-    private CardDTO cardEntity;
-
-    @Valid
-    @NotNull(message = "Acceptor details are required")
-    private AcceptorDetailsDTO acceptorDetails;
-
-    @NotNull(message = "EWallet is required")
-    private EWallet eWallet;
-
-    private String transactionId;
-
+    @NotBlank(message = "Parent Transaction Id is required")
     private String parentTransactionId;
 
+    private String recurrenceFlag;
+
+    private MoneyDTO moneyEntity;
+
+    private CardDTO cardEntity;
+
+    private AcceptorDetailsDTO acceptorDetails;
+
+    private EWallet eWallet;
 
     private TransactionType transactionType;
 
@@ -102,14 +91,6 @@ public class SalesRequestDTO {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
     }
 
     public String getParentTransactionId() {

@@ -1,17 +1,9 @@
-package com.socket.gateway.model;
+package com.socket.gateway.schemeresponse;
 
-public class SalesPostResponse {
+public class SchemeResponse {
     private String transactionId;
     private String responseCode;
     private String responseMessage;
-
-    public String getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(String responseCode) {
-        this.responseCode = responseCode;
-    }
 
     public String getTransactionId() {
         return transactionId;
@@ -19,6 +11,14 @@ public class SalesPostResponse {
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public String getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(String responseCode) {
+        this.responseCode = responseCode;
     }
 
     public String getResponseMessage() {

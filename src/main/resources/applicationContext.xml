@@ -12,8 +12,6 @@
     <bean id="gatewayClient"
           class="com.socket.gateway.socket.GatewayClient">
 
-        <constructor-arg ref="messageService"/>
-
     </bean>
 
     <bean id="transactionClass"
