@@ -1,14 +1,12 @@
 package com.socket.gateway.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.socket.gateway.enums.EWallet;
 import com.socket.gateway.enums.TransactionType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class SalesRequestDTO {
+public class Transaction {
 
     @NotBlank(message = "Merchant Id is required")
     private String merchantId;
@@ -16,6 +14,7 @@ public class SalesRequestDTO {
     @NotBlank(message = "Gateway Reference is required")
     private String gatewayReference;
 
+    @NotBlank(message = "Recurrence Flag is required")
     private String recurrenceFlag;
 
     @Valid
@@ -36,7 +35,6 @@ public class SalesRequestDTO {
     private String transactionId;
 
     private String parentTransactionId;
-
 
     private TransactionType transactionType;
 
@@ -96,14 +94,6 @@ public class SalesRequestDTO {
         this.eWallet = eWallet;
     }
 
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
-    }
-
     public String getTransactionId() {
         return transactionId;
     }
@@ -119,4 +109,13 @@ public class SalesRequestDTO {
     public void setParentTransactionId(String parentTransactionId) {
         this.parentTransactionId = parentTransactionId;
     }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
 }

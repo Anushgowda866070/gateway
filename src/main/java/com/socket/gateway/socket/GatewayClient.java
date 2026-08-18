@@ -1,9 +1,9 @@
 package com.socket.gateway.socket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.socket.gateway.dto.SalesRequestDTO;
-import com.socket.gateway.model.SalesPostResponse;
-import com.socket.gateway.service.MessageService;
+import com.socket.gateway.schemeresponse.SchemeResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,21 +12,18 @@ import java.net.Socket;
 
 public class GatewayClient {
 
-    private MessageService messageService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GatewayClient.class);
 
-    public GatewayClient(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    public String sendRequest(SalesRequestDTO request) {
+    public SchemeResponse sendRequest(Object request) {
 
         String jsonResponse=null;
+        SchemeResponse schemeResponse=null;
 
         try {
 
             Socket socket = new Socket("localhost", 5000);
 
-            System.out.println("Connected to Endpoint");
+            LOGGER.info("Connected to Endpoint");
 
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -40,20 +37,23 @@ public class GatewayClient {
 
             jsonResponse = reader.readLine();
 
-            SalesPostResponse response = objectMapper.readValue(jsonResponse, SalesPostResponse.class);
+            LOGGER.info("RECEIVED =[ {} ]", jsonResponse);
 
-            System.out.println("Transaction Id : " + response.getTransactionId());
+            schemeResponse = objectMapper.readValue(jsonResponse, SchemeResponse.class);
 
-            System.out.println("Response Code : " + response.getResponseCode());
-
-            System.out.println("Response Message : " + response.getResponseMessage());
+            logSchemeResponse(schemeResponse);
 
             socket.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
 
-        return jsonResponse;
+        return schemeResponse;
+    }
+
+    private void logSchemeResponse(SchemeResponse schemeResponse) {
+        LOGGER.info("Transaction Id : {} and Response Code: {} and Response Message: {}", schemeResponse.getTransactionId(),
+                schemeResponse.getResponseCode(), schemeResponse.getResponseMessage());
     }
 }
