@@ -8,12 +8,11 @@ import com.socket.gateway.enums.TransactionType;
 import com.socket.gateway.schemeresponse.SchemeResponse;
 import com.socket.gateway.socket.GatewayClient;
 import com.socket.gateway.utility.RandomAlphaNumeric;
-import com.socket.gateway.validator.CardCvvValidator;
-import com.socket.gateway.validator.CardExpiryValidator;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import com.socket.gateway.validator.CardValidator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +47,7 @@ public class TransactionClass {
             return schemeResponse;
 
         }
-        if (CardExpiryValidator.isCardExpired(dto.getCardEntity().getCardExpiry())){
+        if (CardValidator.isCardExpired(dto.getCardEntity().getCardExpiry())){
             SchemeResponse schemeResponse=new SchemeResponse();
 
             schemeResponse.setResponseMessage("Card Expired");
@@ -82,7 +81,7 @@ public class TransactionClass {
         }
         try {
             CardDTO cardDTO = dto.getCardEntity();
-            CardCvvValidator.validate(cardDTO.getScheme(), cardDTO.getCvv());
+            CardValidator.validateCvv(cardDTO.getScheme(), cardDTO.getCvv());
             String transactionId= RandomAlphaNumeric.generateTransactionId(TransactionType.SALE);
             dto.setTransactionId(transactionId);
             dto.setTransactionType(TransactionType.SALE);

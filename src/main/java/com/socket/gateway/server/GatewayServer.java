@@ -14,11 +14,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import org.slf4j.Logger;
 
 public class GatewayServer {
 
-    private static final Logger LOGGER =LoggerFactory.getLogger(GatewayServer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GatewayServer.class);
     private final TransactionClass transactionClass;
 
     public GatewayServer(TransactionClass transactionClass) {
@@ -26,11 +27,10 @@ public class GatewayServer {
     }
 
     public void startServer() {
-        try {
-            ServerSocket serverSocket = new ServerSocket(4000);
+        try(ServerSocket serverSocket = new ServerSocket(4000)){
             LOGGER.info("Gateway Server Started on Port 4000");
 
-            while (true) {
+            while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 LOGGER.info("APP Connected");
                 BufferedReader reader =
@@ -40,43 +40,43 @@ public class GatewayServer {
                 String jsonRequest = reader.readLine();
                 LOGGER.info("Request :{} ", jsonRequest);
 
-                ObjectMapper objectMapper=new ObjectMapper();
+                ObjectMapper objectMapper = new ObjectMapper();
 
-                JsonNode requestNode= objectMapper.readTree(jsonRequest);
+                JsonNode requestNode = objectMapper.readTree(jsonRequest);
 
-                SchemeResponse schemeResponse = null;
+                SchemeResponse schemeResponse;
 
-                    switch ( TransactionType.valueOf(requestNode.get("transactionType").asText())){
-                        case SALE: {
-                            SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
-                            schemeResponse = transactionClass.processSale(dto);
-                            break;
-                        }
-
-                        case REFUND: {
-                            RefundRequestDTO refundRequestDTO = objectMapper.readValue(jsonRequest, RefundRequestDTO.class);
-                            schemeResponse = transactionClass.processRefund(refundRequestDTO);
-                            break;
-                        }
-
-                        case VERIFY: {
-                            SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
-                            schemeResponse = transactionClass.processVerify(dto);
-                            break;
-                        }
-
-
-                        case VOID: {
-                            SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
-                            schemeResponse = transactionClass.processVoid(dto);
-                            break;
-                        }
-
-                        default:
-                            schemeResponse=new SchemeResponse();
-                            schemeResponse.setResponseMessage("Invalid Transaction Type");
-                            break;
+                switch (TransactionType.valueOf(requestNode.get("transactionType").asText())) {
+                    case SALE: {
+                        SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
+                        schemeResponse = transactionClass.processSale(dto);
+                        break;
                     }
+
+                    case REFUND: {
+                        RefundRequestDTO refundRequestDTO = objectMapper.readValue(jsonRequest, RefundRequestDTO.class);
+                        schemeResponse = transactionClass.processRefund(refundRequestDTO);
+                        break;
+                    }
+
+                    case VERIFY: {
+                        SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
+                        schemeResponse = transactionClass.processVerify(dto);
+                        break;
+                    }
+
+
+                    case VOID: {
+                        SalesRequestDTO dto = objectMapper.readValue(jsonRequest, SalesRequestDTO.class);
+                        schemeResponse = transactionClass.processVoid(dto);
+                        break;
+                    }
+
+                    default:
+                        schemeResponse = new SchemeResponse();
+                        schemeResponse.setResponseMessage("Invalid Transaction Type");
+                        break;
+                }
 
                 PrintWriter writer =
                         new PrintWriter(socket.getOutputStream(), true);

@@ -19,9 +19,7 @@ public class GatewayClient {
         String jsonResponse=null;
         SchemeResponse schemeResponse=null;
 
-        try {
-
-            Socket socket = new Socket("localhost", 5000);
+        try (Socket socket = new Socket("localhost", 5000)){
 
             LOGGER.info("Connected to Endpoint");
 
@@ -42,8 +40,6 @@ public class GatewayClient {
             schemeResponse = objectMapper.readValue(jsonResponse, SchemeResponse.class);
 
             logSchemeResponse(schemeResponse);
-
-            socket.close();
 
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
