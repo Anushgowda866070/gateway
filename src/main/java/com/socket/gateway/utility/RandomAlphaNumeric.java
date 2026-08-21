@@ -1,10 +1,12 @@
 package com.socket.gateway.utility;
 
 import com.socket.gateway.enums.TransactionType;
-
+import java.util.logging.Logger;
 import java.security.SecureRandom;
 
 public class RandomAlphaNumeric {
+
+    private static final Logger LOGGER=Logger.getLogger(RandomAlphaNumeric.class.getName());
     private static final String CHARACTERS =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
@@ -50,6 +52,6 @@ public class RandomAlphaNumeric {
     public static void main(String[] args) {
         String randomValue = generateRandomString();
 
-        System.out.println(randomValue);
+        LOGGER.info(randomValue);
     }
 }

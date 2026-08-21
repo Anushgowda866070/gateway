@@ -4,6 +4,10 @@ import com.socket.gateway.dto.*;
 import com.socket.gateway.model.*;
 
 public class GatewayUtility {
+    private GatewayUtility() {
+        /* This utility class should not be instantiated */
+    }
+
 
     public static SalesRequest convertDTOToEntity(SalesRequestDTO salesRequestDTO) {
 
