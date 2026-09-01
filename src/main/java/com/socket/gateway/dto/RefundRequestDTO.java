@@ -100,4 +100,7 @@ public class RefundRequestDTO {
     public void setParentTransactionId(String parentTransactionId) {
         this.parentTransactionId = parentTransactionId;
     }
+
+    public void setEWallet(EWallet eWallet) {
+    }
 }
